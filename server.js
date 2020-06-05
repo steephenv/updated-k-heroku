@@ -7,13 +7,23 @@ let io = require("socket.io")(http);
 let users = {};
 let NAMES_SET = [
   "Liya",
+  "kuttapi",
   "steephen",
+  "kuttapi",
   "nixon",
+  "kuttapi",
   "liyona",
+  "kuttapi",
+  "nikru",
   "minnu",
+  "kuttapi",
   "stanly",
   "Louies",
-  "frankson"
+  "kuttapi",
+  "frankson",
+  "kuttapi",
+  "nikru",
+  "kuttapi",
 ];
 let COLOR_SET = [
   "red",
@@ -34,7 +44,9 @@ let COLOR_SET = [
 app.use("/", express.static("public"));
 
 app.get("/api/", (req, res) => {
-  res.json({ status: true });
+  res.json({
+    status: true
+  });
 });
 
 let allCards = [
@@ -121,7 +133,7 @@ let shuffled = shaffle(allCards);
 function reShuffleCards() {
   shuffled = shaffle(allCards);
   let shuffledSet = [];
-  for (let i = 0; i < shuffled.length; ) {
+  for (let i = 0; i < shuffled.length;) {
     for (let j = 0; j < Object.keys(users).length && i < shuffled.length; j++) {
       if (Array.isArray(shuffledSet[j])) {
         shuffledSet[j].push(shuffled[i++]);
@@ -134,7 +146,9 @@ function reShuffleCards() {
   let c = 0;
 
   Object.keys(users).forEach(user => {
-    io.to(user).emit("CARD_SHUFFLED", { cards: shuffledSet[c++] });
+    io.to(user).emit("CARD_SHUFFLED", {
+      cards: shuffledSet[c++]
+    });
   });
 }
 
@@ -147,18 +161,24 @@ io.on("connection", client => {
 
   client.emit("MY_DETAILS", users[client.id]);
 
-  io.emit("USERS_UPDATE", { users: users });
+  io.emit("USERS_UPDATE", {
+    users: users
+  });
 
   client.on("NAME_UPDATE", data => {
     console.log("request NAME_UPDATE");
     users[client.id]["fullname"] = data.fullname;
     client.emit("MY_DETAILS", users[client.id]);
-    io.emit("USERS_UPDATE", { users: users });
+    io.emit("USERS_UPDATE", {
+      users: users
+    });
   });
 
   client.on("JOIN", data => {
     console.log("request JOIN");
-    io.emit("NEW_JOIN", { user: users[client.id] });
+    io.emit("NEW_JOIN", {
+      user: users[client.id]
+    });
   });
 
   client.on("NEW_GAME", data => {
@@ -177,7 +197,10 @@ io.on("connection", client => {
 
   client.on("NEW_CHAT", data => {
     console.log("request NEW_CHAT");
-    io.emit("NEW_CHAT", { user: users[client.id], text: data.text });
+    io.emit("NEW_CHAT", {
+      user: users[client.id],
+      text: data.text
+    });
   });
 
   client.on("DISCARD", data => {
@@ -201,20 +224,24 @@ io.on("connection", client => {
   client.on("ADD_TO_TABLE", data => {
     console.log("request ADD_TO_TABLE");
     io.emit("TABLE_UPDATED", {
-      card: { title: data.card },
+      card: {
+        title: data.card
+      },
       user: users[client.id]
     });
   });
 
   client.on("disconnect", () => {
     delete users[client.id];
-    io.emit("USERS_UPDATE", { users: users });
+    io.emit("USERS_UPDATE", {
+      users: users
+    });
     console.log("updated users", users);
     console.log("disconnected");
   });
 });
 
-http.listen(process.env.PORT, () => {
-  console.log("Server started at: ", process.env.PORT);
+http.listen(3000, () => {
+  console.log("Server started at: ", 3000);
 });
 // http.listen(port, hostname, backlog, callback);
