@@ -50,7 +50,7 @@ function updateMyDetails(data){
   let myDetailsContainer = $('#my-details-container');
   myDetailsContainer.html(`<div class="ui fluid card">
     <div class="image">
-    <img src="https://api.adorable.io/avatars/100/${data.id}.svg">
+    <img src="https://cdn-icons-png.flaticon.com/512/742/742751.png">
     </div>
     <div class="content">
     <div class="header">${data.fullname}</div>
@@ -95,7 +95,7 @@ function handleNewMessage(data){
   let chatContainer = $('#chat-container')
   chatContainer.prepend(`<div class="comment">
     <a class="avatar">
-      <img src="https://api.adorable.io/avatars/50/${data.user.id}.svg">
+      <img src="https://cdn-icons-png.flaticon.com/512/742/742751.png">
     </a>
     <div class="content">
       <a class="author">${data.user.fullname}</a>
